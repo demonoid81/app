@@ -4,6 +4,7 @@ const koaRouter = require( 'koa-router')
 const koaBody  = require('koa-bodyparser')
 const { graphqlKoa } = require('apollo-server-koa')
 const playground = require('graphql-playground-middleware-koa').default
+const db = require('./db/models')
 
 let port = process.env.PORT
 const app = new Koa()
@@ -17,5 +18,6 @@ app.use(koaBody())
 app.use(router.routes())
 app.use(router.allowedMethods())
 export default app.listen(port, () => {
+    db.sequelize.sync()
     console.log(`Koa is listening in ${port}`)
 })
