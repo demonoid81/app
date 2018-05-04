@@ -9,10 +9,11 @@ let port = process.env.PORT
 const app = new Koa()
 const router = new koaRouter()
 
+router.all('/graphql', graphqlKoa({ schema: GraphQLSchema }))
+
+router.all('/playground', playground({ endpointUrl: '/graphql' }))
+
 app.use(koaBody())
-
-router.all('/graphql', graphqlKoa({ schema: myGraphQLSchema }))
-
 app.use(router.routes())
 app.use(router.allowedMethods())
 export default app.listen(port, () => {
