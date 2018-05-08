@@ -1,7 +1,7 @@
 
 
 const translationsEn = {
-    "content": "This is some {type} content"
+    "login": "Login"
 }
 
 export default translationsEn
