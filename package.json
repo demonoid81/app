@@ -38,10 +38,12 @@
     "eslint-plugin-standard": "^3.1.0",
     "eslint-plugin-vue": "^4.5.0",
     "graphql": "^0.13.2",
+    "graphql-add-middleware": "^0.1.5",
     "graphql-playground-middleware-koa": "^1.5.1",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.4.0",
+    "micromatch": "^3.1.10",
     "nodemon": "^1.17.3",
     "pg": "^7.4.2",
     "pg-hstore": "^2.3.2",
@@ -49,5 +51,7 @@
     "sequelize-cli": "^4.0.0",
     "webpack": "^4.7.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "bunjil": "^1.0.9"
+  }
 }
