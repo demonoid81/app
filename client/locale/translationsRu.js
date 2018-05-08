@@ -1,5 +1,7 @@
 const translationsRu = {
-    "login": "Логин"
+    'login': 'Логин',
+    'main': 'Главная'
+
 }
 
 export default translationsRu

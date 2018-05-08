@@ -1,7 +1,8 @@
 
 
 const translationsEn = {
-    "login": "Login"
+    'login': 'Login',
+    'main' : 'Main'
 }
 
 export default translationsEn

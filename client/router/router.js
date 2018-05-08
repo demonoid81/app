@@ -5,7 +5,7 @@ export const loginRouter = {
     path: '/login',
     name: 'login',
     meta: {
-        title: '$t(login)'
+        title: Vue.i18n.translate('login')
     },
     component: () => import('@/components/login/login.vue')
 }
