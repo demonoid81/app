@@ -1,9 +1,9 @@
-const Vue = require('vue').default
-const Vuex = require('vuex').default
-const mutations = require('./mutations')
-const actions = require('./actions')
+import Vue from 'vue'
+import Vuex from 'vuex'
+// import mutations from './mutations'
+// import actions from './actions'
 // modules
-const app = require('./modules/app/')
+import app from './modules/app/'
 
 Vue.use(Vuex)
 
@@ -13,10 +13,10 @@ const store = new Vuex.Store({
         requestToken: '' // ключ запроса, отправляется севером при каждом ответе
     },
     mutations: {
-        mutations
+
     },
     actions: {
-        actions
+
     },
     modules: {
         app

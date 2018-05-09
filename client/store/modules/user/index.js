@@ -1,5 +1,5 @@
 // управление состояние пользователя
-const mutations = require('./mutations')
+import mutations from './mutations'
 
 const user = {
     state: {

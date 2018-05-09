@@ -1,6 +1,6 @@
-const mm = require('micromatch')
-const { otherRouter, appRouter } = require('../../../router/router')
-const { checkAccessMenu, oneOf } = require('../../../router/utils')
+import routerUtils from '@router/utils'
+const { otherRouter } = require('@router/otherRouter')
+const { appRouter } = require('@router/appRouter')
 
 const mutations = {
 
@@ -25,7 +25,7 @@ const mutations = {
     // увеличиваем число открытым страниц
     increateTag (state, tagObj) {
         // если страницы нет списке не кэшируемых
-        if (!oneOf(tagObj.name, state.dontCache)) {
+        if (!routerUtils.oneOf(tagObj.name, state.dontCache)) {
             // закешируем ее
             state.cachePage.push(tagObj.name)
             localStorage.cachePage = JSON.stringify(state.cachePage)
@@ -50,7 +50,7 @@ const mutations = {
     // формируем меню на основании листа маршрутов
     updateMenuList (state) {
         const accessCode = parseInt(sessionStorage.getItem('access'))
-        state.menuList = checkAccessMenu(appRouter, accessCode)
+        state.menuList = routerUtils.checkAccessMenu(appRouter, accessCode)
     }
 }
 

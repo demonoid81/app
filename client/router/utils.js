@@ -110,7 +110,7 @@ routerUtils.checkAccessMenu = (routers, accessCode) => {
             // и доступ открыт
             if (routerUtils.showThisRoute(item.access, accessCode)) {
                 // если только один потомок или потомком нет
-                if (item.children.length === 1 || item.children === undefined) {
+                if (item.children === undefined || item.children.length === 1) {
                     // добавляем его
                     menuList.push(item)
                 } else {
@@ -128,7 +128,7 @@ routerUtils.checkAccessMenu = (routers, accessCode) => {
             }
         } else {
             // если только один потомок или потомком нет
-            if (item.children.length === 1 || item.children === undefined) {
+            if (item.children === undefined || item.children.length === 1) {
                 menuList.push(item)
             } else {
                 // добавляем полность все потомков

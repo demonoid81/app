@@ -1,12 +1,11 @@
-const { appRouter } = require('./appRouter')
-const { otherRouter } = require('./otherRouter')
-const i18n = require('@locale')
+const { otherRouter } = require('@router/otherRouter')
+const { appRouter } = require('@router/appRouter')
 
 export const loginRouter = {
     path: '/login',
     name: 'login',
     meta: {
-        title: i18n.translate('login')
+        title: 'login'
     },
     component: () => import('@components/login/login.vue')
 }
@@ -48,3 +47,5 @@ export const routers = [
     page403,
     page404
 ]
+
+export default routers

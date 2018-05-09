@@ -1,4 +1,3 @@
-
 const translationsEn = {
     'login': 'Login',
     'main': 'Main'

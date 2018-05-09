@@ -37,7 +37,9 @@ module.exports = {
             '@': resolve('client'),
             '@components': resolve('client/components'),
             '@locale': resolve('client/locale'),
-            '@router': resolve('client/router')
+            '@router': resolve('client/router'),
+            '@store': resolve('client/store')
+
         }
     },
     module: {

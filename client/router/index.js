@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { routers, otherRouter, appRouter } from './router'
-import routerUtuls from './utils'
+import routers from './router'
+import routerUtils from './utils'
+const { otherRouter } = require('./otherRouter')
+const { appRouter } = require('./appRouter')
 
 Vue.use(VueRouter)
 
@@ -14,7 +16,7 @@ const router = new VueRouter(RouterConfig)
 router.beforeEach((to, from, next) => {
     // todo прогресс бар загрузки
     // отобразим заголовок в баузере
-    routerUtuls.title(to.meta.title)
+    routerUtils.title(to.meta.title)
     // Если стоит блокировка, но оттображаема страница не шаблон блокировки
     if (sessionStorage.getItem('locking') === '1' && to.name !== 'locking') {
         // отрабатываем маршрут блокироваик экрана
@@ -28,13 +30,13 @@ router.beforeEach((to, from, next) => {
         next(false)
     } else {
         // если нет токена сеанся и текущая страница не для входа систему
-        if (this.$store.state.user.token === '' && to.name !== 'login') {
+        if (!sessionStorage.getItem('token') && to.name !== 'login') {
             // оттображаем страницу входа в сиситему
             next({
                 name: 'login'
             })
             // если есть токен сессии и отображаемая страница для входа в истему
-        } else if (this.$store.state.user.token !== '' && to.name === 'login') {
+        } else if (sessionStorage.getItem('token') && to.name === 'login') {
             // страсываем заголовок на стандартный
             title()
             // переходим на главную страницу
@@ -43,14 +45,14 @@ router.beforeEach((to, from, next) => {
             })
         } else {
             // получаем маршрут по имени
-            const curRouterObj = routerUtuls.getRouterObjByName([otherRouter, ...appRouter], to.name)
+            const curRouterObj = routerUtils.getRouterObjByName([otherRouter, ...appRouter], to.name)
             // необходимо определить разрешение на доступ к маршруту
             // todo Доработать права доступа к маршрутам
             if (curRouterObj && curRouterObj.access !== undefined) {
                 // если разрешение есть, то отбабатываем маршрут
                 if (curRouterObj.access === parseInt(sessionStorage.getItem('access'))) {
                     // Если в адресной строке введено меню первого уровня, страница первого вторичного меню открывается по умолчанию
-                    routerUtuls.toDefaultPage([otherRouter, ...appRouter], to.name, router, next)
+                    routerUtils.toDefaultPage([otherRouter, ...appRouter], to.name, router, next)
                 } else {
                     // иначе выбрасываем 403 ошибку
                     next({
@@ -59,14 +61,14 @@ router.beforeEach((to, from, next) => {
                     })
                 }
             } else { // Маршрут без разрешения конфигурации проходит напрямую
-                routerUtuls.toDefaultPage([...routers], to.name, router, next)
+                routerUtils.toDefaultPage([...routers], to.name, router, next)
             }
         }
     }
 })
 
 router.afterEach((to) => {
-    routerUtuls.openNewPage(router.app, to.name, to.params, to.query)
+    routerUtils.openNewPage(router.app, to.name, to.params, to.query)
     // todo идикатор загрузки
     window.scrollTo(0, 0)
 })
