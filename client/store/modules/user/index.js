@@ -3,7 +3,9 @@ import mutations from './mutations'
 
 const user = {
     state: {
-        token: '' // ключ сеанса
+        sessionToken: '', // ключ запроса
+        tokenTime: '', // время получения токена
+        userToken: '' // токен пользователя
     },
     mutations: mutations
 }
