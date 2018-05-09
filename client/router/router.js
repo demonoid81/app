@@ -1,13 +1,14 @@
-const appRouter = require('./appRouter')
-const otherRouter = require('./otherRouter')
+const { appRouter } = require('./appRouter')
+const { otherRouter } = require('./otherRouter')
+const i18n = require('@locale')
 
 export const loginRouter = {
     path: '/login',
     name: 'login',
     meta: {
-        title: Vue.i18n.translate('login')
+        title: i18n.translate('login')
     },
-    component: () => import('@/components/login/login.vue')
+    component: () => import('@components/login/login.vue')
 }
 
 export const page404 = {
@@ -16,7 +17,7 @@ export const page404 = {
     meta: {
         title: '404 Not found'
     },
-    component: () => import('@/components/error/404.vue')
+    component: () => import('@components/error-page/404.vue')
 }
 
 export const page403 = {
@@ -25,7 +26,7 @@ export const page403 = {
         title: '403 Forbidden error'
     },
     name: 'error-403',
-    component: () => import('@/components/error/403.vue')
+    component: () => import('@components/error-page/403.vue')
 }
 
 export const page500 = {
@@ -34,7 +35,7 @@ export const page500 = {
         title: '500 Internal server error'
     },
     name: 'error-500',
-    component: () => import('@/components/error/500.vue')
+    component: () => import('@components/error-page/500.vue')
 }
 
 export const routers = [

@@ -1,7 +1,7 @@
-const Vue = require('vue')
-const VueRouter = require('vue-router')
-const {routers, otherRouter, appRouter} = require('./router')
-const {title , getRouterObjByName, toDefaultPage, openNewPage} = require('./utils')
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import { routers, otherRouter, appRouter } from './router'
+import routerUtuls from './utils'
 
 Vue.use(VueRouter)
 
@@ -9,12 +9,12 @@ const RouterConfig = {
     routes: routers
 }
 
-export const router = new VueRouter(RouterConfig)
+const router = new VueRouter(RouterConfig)
 
 router.beforeEach((to, from, next) => {
     // todo прогресс бар загрузки
     // отобразим заголовок в баузере
-    title(to.meta.title)
+    routerUtuls.title(to.meta.title)
     // Если стоит блокировка, но оттображаема страница не шаблон блокировки
     if (sessionStorage.getItem('locking') === '1' && to.name !== 'locking') {
         // отрабатываем маршрут блокироваик экрана
@@ -43,14 +43,14 @@ router.beforeEach((to, from, next) => {
             })
         } else {
             // получаем маршрут по имени
-            const curRouterObj = getRouterObjByName([otherRouter, ...appRouter], to.name)
+            const curRouterObj = routerUtuls.getRouterObjByName([otherRouter, ...appRouter], to.name)
             // необходимо определить разрешение на доступ к маршруту
             // todo Доработать права доступа к маршрутам
             if (curRouterObj && curRouterObj.access !== undefined) {
                 // если разрешение есть, то отбабатываем маршрут
                 if (curRouterObj.access === parseInt(sessionStorage.getItem('access'))) {
                     // Если в адресной строке введено меню первого уровня, страница первого вторичного меню открывается по умолчанию
-                    toDefaultPage([otherRouter, ...appRouter], to.name, router, next)
+                    routerUtuls.toDefaultPage([otherRouter, ...appRouter], to.name, router, next)
                 } else {
                     // иначе выбрасываем 403 ошибку
                     next({
@@ -59,15 +59,16 @@ router.beforeEach((to, from, next) => {
                     })
                 }
             } else { // Маршрут без разрешения конфигурации проходит напрямую
-                toDefaultPage([...routers], to.name, router, next)
+                routerUtuls.toDefaultPage([...routers], to.name, router, next)
             }
         }
     }
-
 })
 
 router.afterEach((to) => {
-    openNewPage(router.app, to.name, to.params, to.query);
+    routerUtuls.openNewPage(router.app, to.name, to.params, to.query)
     // todo идикатор загрузки
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
 })
+
+export default router

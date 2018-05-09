@@ -1,4 +1,4 @@
-let utils = {
+const utils = {
 
 }
 // строка окна в баузере

@@ -3,9 +3,9 @@ const mutations = require('./mutations')
 
 const user = {
     state: {
-        token : '', // ключ сеанса
+        token: '' // ключ сеанса
     },
-    mutations : mutations,
+    mutations: mutations
 }
 
 export default user

@@ -1,28 +1,29 @@
-import utils from '../libs/utils'
-
-let routeUtils = {
+const routerUtils = {
 
 }
 
 // строка окна в баузере
-routeUtils.title = util.title = (title) => {
+routerUtils.title = (title) => {
     title = title || 'Workflow'
     window.document.title = title
 }
 
+routerUtils.oneOf = (ele, targetArr) => {
+    return (targetArr.indexOf(ele) >= 0)
+}
+
 // получить маршрут по имени
-routeUtils.getRouterObjByName = (routers, name) => {
+routerUtils.getRouterObjByName = (routers, name) => {
     if (!name || !routers || !routers.length) {
         return null
     }
-    let routerObj = null
-    for (let item of routers) {
+    for (const item of routers) {
         // Идем по первому уровню
         if (item.name === name) {
             return item
         }
         // переходим на следющий уровень
-        routerObj = routeUtils.getRouterObjByName(item.children, name) // рекурсия
+        const routerObj = routerUtils.getRouterObjByName(item.children, name) // рекурсия
         if (routerObj) {
             return routerObj
         }
@@ -30,9 +31,9 @@ routeUtils.getRouterObjByName = (routers, name) => {
     return null
 }
 // открытие новой страницы
-routeUtils.openNewPage = (vm, name, argu, query) =>  {
-    let pageOpenedList = vm.$store.state.app.pageOpenedList
-    let openedPageLen = pageOpenedList.length
+routerUtils.openNewPage = (vm, name, argu, query) => {
+    const pageOpenedList = vm.$store.state.app.pageOpenedList
+    const openedPageLen = pageOpenedList.length
     let i = 0
     let tagHasOpened = false
     // перебираем все открытые страницы
@@ -70,33 +71,85 @@ routeUtils.openNewPage = (vm, name, argu, query) =>  {
     }
     vm.$store.commit('setCurrentPageName', name)
 }
-routeUtils.generateMenu = (routers, accessCode, menuList) => {
-    for (let item of routers) {
-        // Идем по первому уровню
-        if (item.access !== undefined){
 
+routerUtils.toDefaultPage = (routers, name, route, next) => {
+    const len = routers.length
+    let i = 0
+    let notHandle = true
+    while (i < len) {
+        if (routers[i].name === name && routers[i].children && routers[i].redirect === undefined) {
+            route.replace({
+                name: routers[i].children[0].name
+            })
+            notHandle = false
+            next()
+            break
         }
-        else {
-            // если вложеность одна, то добавляем ее
-            if (item.children.length === 1) {
+        i++
+    }
+    if (notHandle) {
+        next()
+    }
+}
+
+routerUtils.showThisRoute = function (itAccess, currentAccess) {
+    if (typeof itAccess === 'object' && Array.isArray(itAccess)) {
+        return routerUtils.oneOf(currentAccess, itAccess)
+    } else {
+        return itAccess === currentAccess
+    }
+}
+
+// Проверка уровней доступа к разделам меню
+routerUtils.checkAccessMenu = (routers, accessCode) => {
+    const menuList = []
+    // todo проработать уровни доступа
+    for (const item of routers) {
+        // Если уровни доступа не указаны
+        if (item.access !== undefined) {
+            // и доступ открыт
+            if (routerUtils.showThisRoute(item.access, accessCode)) {
+                // если только один потомок или потомком нет
+                if (item.children.length === 1 || item.children === undefined) {
+                    // добавляем его
+                    menuList.push(item)
+                } else {
+                    // добавляем полность все потомков
+                    const len = menuList.push(item)
+                    // перебираем всех потомком на доступ
+                    const childrenArr = routerUtils.checkAccessMenu(item.children, accessCode)
+                    // если проверку не прошли удаляем ветку
+                    if (childrenArr === undefined || childrenArr.length === 0) {
+                        menuList.splice(len - 1, 1)
+                    }
+                    //  иначе изменяем добавленый пунк меню
+                    menuList[len - 1].children = childrenArr
+                }
+            }
+        } else {
+            // если только один потомок или потомком нет
+            if (item.children.length === 1 || item.children === undefined) {
                 menuList.push(item)
             } else {
-                let len = menuList.push(item) // индекс пункта меню
-
-
+                // добавляем полность все потомков
+                const len = menuList.push(item)
+                // перебираем всех потомком на доступ
+                const childrenArr = routerUtils.checkAccessMenu(item.children, accessCode)
+                // если проверку не прошли удаляем ветку
                 if (childrenArr === undefined || childrenArr.length === 0) {
                     menuList.splice(len - 1, 1)
                 }
-
+                //             } else {
+                //                 let handledItem = JSON.parse(JSON.stringify(menuList[len - 1]))
+                //                 handledItem.children = childrenArr
+                //                 menuList.splice(len - 1, 1, handledItem)
+                //             }
+                //  иначе изменяем добавленый пунк меню
+                menuList[len - 1].children = childrenArr
             }
         }
-
-        // переходим на следющий уровень
-        routeUtils.generateMenu(item.children, name) // рекурсия
-
     }
-
+    return menuList
 }
 
-
-export default routeUtils
+export default routerUtils
