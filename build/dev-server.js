@@ -33,7 +33,6 @@ const hotMiddleware = require('webpack-hot-middleware')(compiler, {
 
 // force page reload when html-webpack-plugin template changes
 compiler.hooks.compilation.tap('html-webpack-plugin-after-emit', () => {
-    console.clear()
     hotMiddleware.publish({ action: 'reload' })
 })
 

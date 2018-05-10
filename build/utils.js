@@ -35,7 +35,7 @@ exports.cssLoaders = function (options) {
         // Extract CSS when that option is specified
         // (which is the case during production build)
         if (options.extract) {
-            return MiniCssExtractPlugin.loader
+            return [MiniCssExtractPlugin.loader, loaders]
 
             // ({
             //     use: loaders,

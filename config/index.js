@@ -15,6 +15,7 @@ module.exports = {
     dev: {
         env: require('./dev.env'),
         port: 8989,
+        assetsRoot: path.resolve(__dirname, '../dist'),
         autoOpenBrowser: true,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',

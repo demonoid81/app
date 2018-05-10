@@ -10,6 +10,8 @@ import { split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import VueApollo from 'vue-apollo'
+import Vuetify from 'vuetify'
+import('../node_modules/vuetify/dist/vuetify.min.css')
 
 const httpLink = new HttpLink({
     // You should use an absolute URL here
@@ -50,6 +52,7 @@ const apolloProvider = new VueApollo({
 
 Vue.use(VueRouter)
 Vue.use(VueApollo)
+Vue.use(Vuetify)
 
 new Vue({
     router: router,

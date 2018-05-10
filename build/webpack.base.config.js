@@ -1,10 +1,8 @@
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
-const vueLoaderConfig = require('./vue-loader.conf')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const WebpackClearConsole = require("webpack-clear-console").WebpackClearConsole;
 const env = process.env.NODE_ENV || 'development'
 const devEnv = process.env.NODE_ENV !== 'production'
 
@@ -18,7 +16,7 @@ module.exports = {
         net: 'empty',
         tls: 'empty',
         dns: 'empty',
-        fs: 'empty',
+        fs: 'empty'
     },
     entry: {
         app: './client/index.js'
@@ -56,7 +54,19 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
-                options: vueLoaderConfig
+                options: {
+                    loaders: {
+                        css: 'vue-style-loader!css-loader',
+                        less: 'vue-style-loader!css-loader!less-loader',
+                        scss: 'vue-style-loader!css-loader!sass-loader',
+                        sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
+                        styl: 'vue-style-loader!css-loader!stylus-loader'
+                    },
+                    postLoaders: {
+                        html: 'babel-loader'
+                    }
+                }
+
             },
             {
                 test: /\.js$/,
@@ -86,7 +96,7 @@ module.exports = {
             // Options similar to the same options in webpackOptions.output
             // both options are optional
             filename: devEnv ? '[name].css' : '[name].[hash].css',
-            chunkFilename: devEnv ? '[id].css' : '[id].[hash].css',
+            chunkFilename: devEnv ? '[id].css' : '[id].[hash].css'
         }),
         new VueLoaderPlugin()
     ]
