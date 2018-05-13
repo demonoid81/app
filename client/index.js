@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from './App'
+import App from './app'
 import router from '@router/index'
 import store from '@store'
+import i18n from '@locale'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
@@ -55,8 +56,10 @@ Vue.use(VueApollo)
 Vue.use(Vuetify)
 
 new Vue({
+    el: '#app',
     router: router,
     store: store,
+    i18n: i18n,
     provide: apolloProvider.provide(),
     render: h => h(App),
     data: {
@@ -70,4 +73,4 @@ new Vue({
         // создаем меню с уровнями доступа
         this.$store.commit('updateMenuList')
     }
-}).$mount('#app')
+})

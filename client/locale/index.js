@@ -1,18 +1,16 @@
 import Vue from 'vue'
-import VuexI18n from 'vuex-i18n'
-
+import VuexI18n from '@modules/vuex-i18n'
 import store from '@store'
 
 import translationsEn from './translationsEn'
 import translationsRu from './translationsRu'
 
-Vue.use(VuexI18n.plugin, store, {
-    identifiers: ['{{', '}}'],
-    moduleName: 'i18n',
-    onTranslationNotFound (locale, key) {
-        console.warn(`i18n :: Key '${key}' not found for locale '${locale}'`)
-    }
-})
+Vue.use(VuexI18n)
 
-Vue.i18n.add('en', translationsEn)
-Vue.i18n.add('ru', translationsRu)
+const i18n = new VuexI18n.I18n(store)
+
+// i18n.add('en', translationsEn)
+// i18n.add('ru', translationsRu)
+// i18n.set('ru')
+
+export default i18n

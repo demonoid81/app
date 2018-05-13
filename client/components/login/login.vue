@@ -7,9 +7,9 @@
                 <v-layout row wrap>
                     <v-flex lg12 >
                         <v-text-field
-                                v-model="title"
+                                v-model="login"
                                 :rules="[rules.required]"
-                                label="Title"
+                                label='login'
                                 counter
                                 max="25"
                                 class="login-tip"
@@ -38,7 +38,7 @@ export default {
     data () {
         return {
             sessionToken: '',
-            title: '',
+            login: '',
             email: '',
             rules: {
                 required: (value) => !!value || 'Required.',
@@ -63,6 +63,7 @@ export default {
         }
     },
     mounted () {
+        this.$i18n.set('ru-RU')
         // this.$store.commit('putSessionToken', {
         //     sessionToken: this.$apollo.queries.getSessionToken(),
         //     tokenTime: new Date().getTime()

@@ -8,7 +8,7 @@ const app = {
     state: {
         pageOpenedList: [
             // {
-            //     title: Vue.i18n.translate('main'),
+            //     title: Vue.vuex-i18n.translate('main'),
             //     path: '',
             //     name: 'main'
             // }

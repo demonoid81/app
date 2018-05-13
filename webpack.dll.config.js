@@ -12,7 +12,7 @@ const dllConfig = {
             'vue/dist/vue.esm.js',
             'vue-router',
             'vuex',
-            'vuex-i18n'
+            'vuex-vuex-i18n'
         ]
     },
     module: {
