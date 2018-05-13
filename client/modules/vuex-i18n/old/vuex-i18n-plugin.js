@@ -342,7 +342,7 @@ VuexI18nPlugin.install = function install (Vue, store, config) {
 // closure to avoid recompilation of the regular expression to match tags on
 // every render cycle.
 const renderFn = function (identifiers) {
-    if (identifiers == null || identifiers.length != 2) {
+    if (identifiers === null || identifiers.length != 2) {
         console.warn('i18n: You must specify the start and end character identifying variable substitutions')
     }
 
