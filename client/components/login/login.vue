@@ -1,7 +1,6 @@
 <template>
 <div class="login" @keydown.enter="handleSubmit">
     <div class="login-con">
-
         <v-card style="background: white">
             <v-container fluid elevation-20>
                 <v-layout row wrap>
@@ -9,19 +8,21 @@
                         <v-text-field
                                 v-model="login"
                                 :rules="[rules.required]"
-                                label='login'
-                                counter
-                                max="25"
+                                :label='$i18n.translate("login")'
                                 class="login-tip"
                         ></v-text-field>
                     </v-flex>
                     <v-flex lg12 class="login-tip">
                         <v-text-field
-                                v-model="email"
-                                :rules="[rules.required, rules.email]"
-                                label="E-mail"
+                                v-model="password"
+                                :rules="[rules.required]"
+                                :label='$i18n.translate("password")'
+                                :append-icon="noVisible ? 'visibility' : 'visibility_off'"
+                                :append-icon-cb="() => (noVisible = !noVisible)"
+                                :type="noVisible ? 'password' : 'text'"
                                 class="login-tip"
-                        ></v-text-field>
+                        >
+                        </v-text-field>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -39,18 +40,16 @@ export default {
         return {
             sessionToken: '',
             login: '',
-            email: '',
+            password: '',
+            noVisible: true,
+            custom: true,
             rules: {
-                required: (value) => !!value || 'Required.',
-                email: (value) => {
-                    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                    return pattern.test(value) || 'Invalid e-mail.'
-                }
+                required: (value) => !!value || this.$i18n.translate('required') + '.'
             }
         }
     },
     apollo: {
-        getSessionToken () {
+        getLoginToken () {
             return {
                 query: request.getToken
             }
@@ -63,7 +62,6 @@ export default {
         }
     },
     mounted () {
-        this.$i18n.set('ru-RU')
         // this.$store.commit('putSessionToken', {
         //     sessionToken: this.$apollo.queries.getSessionToken(),
         //     tokenTime: new Date().getTime()

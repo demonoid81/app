@@ -9,8 +9,8 @@ Vue.use(VuexI18n)
 
 const i18n = new VuexI18n.I18n(store)
 
-// i18n.add('en', translationsEn)
-// i18n.add('ru', translationsRu)
-// i18n.set('ru')
+i18n.add('en-EN', translationsEn)
+i18n.add('ru-RU', translationsRu)
+i18n.set('ru-RU')
 
 export default i18n

@@ -21,7 +21,7 @@ const httpLink = new HttpLink({
 
 // Create the subscription websocket link
 const wsLink = new WebSocketLink({
-    uri: 'ws://localhost:3000/subscriptions',
+    uri: 'ws://localhost:8989/subscriptions',
     options: {
         reconnect: true
     }

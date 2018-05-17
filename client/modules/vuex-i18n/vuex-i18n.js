@@ -28,6 +28,8 @@ export class I18n {
         if (typeof this.mergedConfig.onTranslationNotFound !== 'function') {
             console.error('i18n: i18n config option onTranslationNotFound must be a function')
             this.onTranslationNotFound = function () {}
+        } else {
+            this.onTranslationNotFound = this.mergedConfig.onTranslationNotFound
         }
 
         if (this.store.state.hasOwnProperty(this.moduleName) === false) {
@@ -75,11 +77,11 @@ export class I18n {
         }
 
         this.translate = function translate () {
-            return this.$t()
+            return this.$t(...arguments)
         }
 
         this.translateIn = function translateInLanguage (locale) {
-            return this.translateInLanguage(locale)
+            return this.translateInLanguage(locale, ...arguments)
         }
 
         // register the translation function on the vue instance directly
@@ -272,7 +274,7 @@ export class I18n {
 
         // return the value from the store
         if (translationExists === true) {
-            return render(locale, translations[locale][key], options, pluralization)
+            return this.render(locale, translations[locale][key], options, pluralization)
         }
 
         // check if a regional locale translation would be available for the key
@@ -280,7 +282,7 @@ export class I18n {
         if (localeRegional.length > 1 &&
             translations.hasOwnProperty(localeRegional[0]) === true &&
             translations[localeRegional[0]].hasOwnProperty(key) === true) {
-            return render(localeRegional[0], translations[localeRegional[0]][key], options, pluralization)
+            return this.render(localeRegional[0], translations[localeRegional[0]][key], options, pluralization)
         }
 
         // invoke a method if a translation is not found
@@ -298,13 +300,13 @@ export class I18n {
         // check if a vaild fallback exists in the store.
         // return the default value if not
         if (translations.hasOwnProperty(fallback) === false) {
-            return render(locale, defaultValue, options, pluralization)
+            return this.render(locale, defaultValue, options, pluralization)
         }
 
         // check if the key exists in the fallback locale in the store.
         // return the default value if not
         if (translations[fallback].hasOwnProperty(key) === false) {
-            return render(fallback, defaultValue, options, pluralization)
+            return this.render(fallback, defaultValue, options, pluralization)
         }
 
         return render(locale, translations[fallback][key], options, pluralization)
@@ -419,6 +421,11 @@ const renderFn = function (identifiers) {
     return render
 }
 
+// check if the given object is an array
+function isArray (obj) {
+    return !!obj && Array === obj.constructor
+}
+
 export function install (_Vue) {
     if (Vue && _Vue === Vue) {
         if (process.env.NODE_ENV !== 'production') {
@@ -447,3 +454,4 @@ function vuexI18nInit () {
         this.$i18n = options.parent.$i18n
     }
 }
+
