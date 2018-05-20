@@ -66,27 +66,26 @@ router.all('/playground', koaPlayground({
 }),
 )
 
-// app.use(cors)
 app.use(router.routes())
 app.use(router.allowedMethods())
 app.listen(port, () => {
     // db.sequelize.sync()
     console.log(new Date() + ` Koa is listening in ${port}`)
+    // const subscriptionsServer =
+    new SubscriptionServer({
+        schema: GraphQLSchema,
+        execute,
+        subscribe
+        // subscriptionManager: subscriptionManager,
+        // onConnect: async (connectionParams) => {
+        //     if (connectionParams.authToken) {
+        //         return await validateToken(connectionParams.authToken)
+        //     }
+        //     throw new Error('Missing auth token!')
+        // }
+    }, {
+        path: '/subscriptions',
+        server: app
+    }
+    )
 })
-
-const subscriptionsServer = new SubscriptionServer({
-    GraphQLSchema,
-    execute,
-    subscribe
-// subscriptionManager: subscriptionManager,
-// onConnect: async (connectionParams) => {
-//     if (connectionParams.authToken) {
-//         return await validateToken(connectionParams.authToken)
-//     }
-//     throw new Error('Missing auth token!')
-// }
-}, {
-    path: '/subscriptions',
-    server: app
-}
-)

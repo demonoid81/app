@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import { request } from '@/components/login/graphql'
+import requests from '@/components/login/graphql'
+
 import fun from '@/components/login'
 export default {
     name: 'login',
@@ -48,13 +49,6 @@ export default {
             }
         }
     },
-    apollo: {
-        getLoginToken () {
-            return {
-                query: request.getToken
-            }
-        }
-    },
     methods: {
         handleSubmit () {
             // todo login
@@ -62,10 +56,14 @@ export default {
         }
     },
     mounted () {
-        // this.$store.commit('putSessionToken', {
-        //     sessionToken: this.$apollo.queries.getSessionToken(),
-        //     tokenTime: new Date().getTime()
-        // })
+        this.$apollo
+            .query({
+                query: requests.getToken
+            })
+            .then(response => {
+                // save user token to localstorage
+                console.log('token: ' + response.data.loginToken)
+            })
     }
 }
 </script>
