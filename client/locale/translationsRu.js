@@ -1,5 +1,5 @@
 const translationsRu = {
-    'login': 'Логин',
+    'login': 'Имя пользователя',
     'main': 'Главная',
     'password': 'Пароль',
     'required': 'Обязательно поле'

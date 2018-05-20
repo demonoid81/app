@@ -6,7 +6,7 @@
                 <v-layout row wrap>
                     <v-flex lg12 >
                         <v-text-field
-                                v-model="login"
+                                v-model="username"
                                 :rules="[rules.required]"
                                 :label='$i18n.translate("login")'
                                 class="login-tip"
@@ -33,14 +33,13 @@
 
 <script>
 import requests from '@/components/login/graphql'
-
-import fun from '@/components/login'
+import utils from '@/components/login'
 export default {
     name: 'login',
     data () {
         return {
             sessionToken: '',
-            login: '',
+            username: '',
             password: '',
             noVisible: true,
             custom: true,
@@ -51,17 +50,37 @@ export default {
     },
     methods: {
         handleSubmit () {
-            // todo login
-            console.log('login')
+            this.$apollo
+                .mutate({
+                    mutation: requests.LOGIN_USER,
+                    variables: {
+                        login: this.login,
+                        password: this.password
+                    }
+                })
+                .then(response => {
+                    // сохраним пользовательский токен в sessionStorage
+                    sessionStorage.setItem('userToken', response.data.login)
+
+                    // перейдем на главную старницу
+                    this.$router.push({
+                        name: 'main'
+                    })
+                })
+                .catch((error) => {
+                    // Error
+                    console.error(error)
+                })
         }
     },
     mounted () {
+        // запрос на токен для аутентификации
         this.$apollo
             .query({
-                query: requests.getToken
+                query: requests.GET_TOKEN
             })
             .then(response => {
-                // save user token to localstorage
+                // todo работа с токеном
                 console.log('token: ' + response.data.loginToken)
             })
     }

@@ -2,13 +2,12 @@ import '../env'
 import Koa from 'koa'
 import KoaRouter from 'koa-router'
 import koaBody from 'koa-bodyparser'
-// import cors from 'kcors'
 import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 const koaPlayground = require('graphql-playground-middleware-koa').default
 import { addMiddleware } from 'graphql-add-middleware'
 import { execute, subscribe } from 'graphql'
-// const db = require('./db/models')
+const db = require('./db/models')
 
 import GraphQLSchema from './graphql/shema'
 
@@ -39,16 +38,6 @@ app.on('error', function (err, ctx) {
 router.post('/graphql', koaBody(), graphqlKoa({
     schema: GraphQLSchema,
     pretty: process.env.NODE_ENV !== 'production',
-    // formatError: (error) => {
-    //     errors.report(error.originalError || error)
-    //     return {
-    //         message: error.message,
-    //         code: error.originalError && error.originalError.code,
-    //         state: error.originalError && error.originalError.state,
-    //         locations: error.locations,
-    //         path: error.path
-    //     }
-    // },
     formatError: error => ({
         message: error.message,
         state: error.originalError && error.originalError.state,
@@ -69,7 +58,7 @@ router.all('/playground', koaPlayground({
 app.use(router.routes())
 app.use(router.allowedMethods())
 app.listen(port, () => {
-    // db.sequelize.sync()
+    db.sequelize.sync()
     console.log(new Date() + ` Koa is listening in ${port}`)
     // const subscriptionsServer =
     new SubscriptionServer({
