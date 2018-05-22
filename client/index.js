@@ -12,7 +12,9 @@ import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import VueApollo from 'vue-apollo'
 import Vuetify from 'vuetify'
-import('../node_modules/vuetify/dist/vuetify.min.css')
+
+// import('../node_modules/vuetify/dist/vuetify.min.css')
+import './app.styl'
 
 const httpLink = new HttpLink({
     // You should use an absolute URL here

@@ -1,4 +1,4 @@
-import types from '../../../graphql/types/index'
+
 import {
     GraphQLID,
     GraphQLList,
@@ -6,11 +6,12 @@ import {
     GraphQLNonNull,
     GraphQLObjectType
 } from 'graphql'
-import models from '../index'
+const db = require('../../db/models')
 
 import SHA3 from 'js-sha3'
 
 const sha256 = SHA3.sha3_256
+const sha512 = SHA3.sha3_512
 
 export const loginUsers = {
     description: 'Запрос на авторизацию пользователя',
@@ -22,16 +23,18 @@ export const loginUsers = {
         },
         password: {
             type: new GraphQLNonNull(GraphQLString)
-        },
+        }
     },
-    resolve: await () => {
-        return UserModel.findOne({username: args.username, password: pass}).then(data => {
-
-        })
-        //return sha256(Math.random().toString(36).substr(2, 36))
+    resolve (root, args, options) {
+        return db.Users.findAll()
+            .then(data => {
+                console.log(data)
+                return sha512('p@sSw0rD')
+            })
     }
+    // return sha256(Math.random().toString(36).substr(2, 36))
 }
 
-export default {
+module.export = {
     loginUsers: loginUsers
 }

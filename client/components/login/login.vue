@@ -2,30 +2,36 @@
 <div class="login" @keydown.enter="handleSubmit">
     <div class="login-con">
         <v-card style="background: white">
-            <v-container fluid elevation-20>
-                <v-layout row wrap>
-                    <v-flex lg12 >
+                <v-form ref="form" v-model="valid" lazy-validation>
+                    <v-flex xs10 offset-xs1 >
                         <v-text-field
-                                v-model="username"
-                                :rules="[rules.required]"
-                                :label='$i18n.translate("login")'
-                                class="login-tip"
+                        v-model="username"
+                        :rules="[rules.required]"
+                        :label='$i18n.translate("login")'
+                        class="login-tip"
                         ></v-text-field>
                     </v-flex>
-                    <v-flex lg12 class="login-tip">
-                        <v-text-field
-                                v-model="password"
-                                :rules="[rules.required]"
-                                :label='$i18n.translate("password")'
-                                :append-icon="noVisible ? 'visibility' : 'visibility_off'"
-                                :append-icon-cb="() => (noVisible = !noVisible)"
-                                :type="noVisible ? 'password' : 'text'"
-                                class="login-tip"
+                    <v-flex xs10 offset-xs1 >
+                    <v-text-field
+                        v-model="password"
+                        :rules="[rules.required]"
+                        :label='$i18n.translate("password")'
+                        :append-icon="noVisible ? 'visibility' : 'visibility_off'"
+                        :append-icon-cb="() => (noVisible = !noVisible)"
+                        :type="noVisible ? 'password' : 'text'"
+                        class="login-tip"
                         >
                         </v-text-field>
                     </v-flex>
-                </v-layout>
-            </v-container>
+                    <v-flex text-xs-center>
+                        <v-btn :disabled="!valid" @click="submit">
+                        submit
+                        </v-btn>
+                    </v-flex>
+                    <v-flex xs12 text-xs-center flexbox>
+                        <span class="caption">Введите имя пользователя и пароль</span>
+                    </v-flex>
+                </v-form>
         </v-card>
     </div>
 </div>
@@ -43,6 +49,7 @@ export default {
             password: '',
             noVisible: true,
             custom: true,
+            valid: false,
             rules: {
                 required: (value) => !!value || this.$i18n.translate('required') + '.'
             }
@@ -54,7 +61,7 @@ export default {
                 .mutate({
                     mutation: requests.LOGIN_USER,
                     variables: {
-                        login: this.login,
+                        username: this.username,
                         password: this.password
                     }
                 })

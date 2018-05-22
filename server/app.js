@@ -61,20 +61,20 @@ app.listen(port, () => {
     db.sequelize.sync()
     console.log(new Date() + ` Koa is listening in ${port}`)
     // const subscriptionsServer =
-    new SubscriptionServer({
-        schema: GraphQLSchema,
-        execute,
-        subscribe
-        // subscriptionManager: subscriptionManager,
-        // onConnect: async (connectionParams) => {
-        //     if (connectionParams.authToken) {
-        //         return await validateToken(connectionParams.authToken)
-        //     }
-        //     throw new Error('Missing auth token!')
-        // }
-    }, {
-        path: '/subscriptions',
-        server: app
-    }
-    )
+    // new SubscriptionServer({
+    //     schema: GraphQLSchema,
+    //     execute,
+    //     subscribe
+    //     // subscriptionManager: subscriptionManager,
+    //     // onConnect: async (connectionParams) => {
+    //     //     if (connectionParams.authToken) {
+    //     //         return await validateToken(connectionParams.authToken)
+    //     //     }
+    //     //     throw new Error('Missing auth token!')
+    //     // }
+    // }, {
+    //     path: '/subscriptions',
+    //     server: app
+    // }
+    // )
 })

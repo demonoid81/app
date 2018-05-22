@@ -1,5 +1,5 @@
-import mics from '../../db/models/users'
+const users = require('./users')
 
 export default {
-    ...mics
+    ...users
 }
