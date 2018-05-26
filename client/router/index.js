@@ -30,13 +30,13 @@ router.beforeEach((to, from, next) => {
         next(false)
     } else {
         // если нет токена сеанся и текущая страница не для входа систему
-        if (!sessionStorage.getItem('token') && to.name !== 'login') {
+        if (!sessionStorage.getItem('userToken') && to.name !== 'login') {
             // оттображаем страницу входа в сиситему
             next({
                 name: 'login'
             })
             // если есть токен сессии и отображаемая страница для входа в истему
-        } else if (sessionStorage.getItem('token') && to.name === 'login') {
+        } else if (sessionStorage.getItem('userToken') && to.name === 'login') {
             // страсываем заголовок на стандартный
             title()
             // переходим на главную страницу

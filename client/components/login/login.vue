@@ -24,7 +24,7 @@
                         </v-text-field>
                     </v-flex>
                     <v-flex text-xs-center>
-                        <v-btn :disabled="!valid" @click="submit">
+                        <v-btn :disabled="!valid" @click="handleSubmit">
                         submit
                         </v-btn>
                     </v-flex>
@@ -67,7 +67,7 @@ export default {
                 })
                 .then(response => {
                     // сохраним пользовательский токен в sessionStorage
-                    sessionStorage.setItem('userToken', response.data.login)
+                    sessionStorage.setItem('userToken', response.data.userToken)
 
                     // перейдем на главную старницу
                     this.$router.push({

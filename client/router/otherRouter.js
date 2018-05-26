@@ -6,7 +6,7 @@ export const otherRouter = {
     redirect: '/home',
     component: main,
     children: [
-        { path: 'home', title: 'home', name: 'home_index', component: () => import('@components/login/login.vue') },
+        { path: 'home', title: 'home', name: 'main', component: () => import('@components/main/main.vue') },
         { path: 'ownspace', title: '个人中心', name: 'ownspace_index', component: () => import('@components/login/login.vue') },
         { path: 'order/:order_id', title: '订单详情', name: 'order-info', component: () => import('@components/login/login.vue') },
         { path: 'shopping', title: '购物详情', name: 'shopping', component: () => import('@components/login/login.vue') },

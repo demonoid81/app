@@ -13,9 +13,9 @@ import SHA3 from 'js-sha3'
 const sha256 = SHA3.sha3_256
 const sha512 = SHA3.sha3_512
 
-export const loginUsers = {
+export const userToken = {
     description: 'Запрос на авторизацию пользователя',
-    name: 'LoginUser',
+    name: 'UserToken',
     type: GraphQLString,
     args: {
         username: {
@@ -28,6 +28,7 @@ export const loginUsers = {
     resolve (root, args, options) {
         return db.Users.findAll()
             .then(data => {
+                //
                 console.log(data)
                 return sha512('p@sSw0rD')
             })
@@ -36,5 +37,5 @@ export const loginUsers = {
 }
 
 module.export = {
-    loginUsers: loginUsers
+    userToken: userToken
 }
