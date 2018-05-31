@@ -28,8 +28,7 @@ export const userToken = {
     resolve (root, args, options) {
         return db.Users.findAll()
             .then(data => {
-                //
-                console.log(data)
+                // todo разобрать с аутентификацией
                 return sha512('p@sSw0rD')
             })
     }

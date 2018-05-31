@@ -2,6 +2,11 @@
 <div class="login" @keydown.enter="handleSubmit">
     <div class="login-con">
         <v-card style="background: white">
+            <v-card-title >
+                <div >
+                    <span class="title">Добро пожаловать</span><br>
+                </div>
+            </v-card-title>
                 <v-form ref="form" v-model="valid" lazy-validation>
                     <v-flex xs10 offset-xs1 >
                         <v-text-field
