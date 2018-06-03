@@ -1,10 +1,11 @@
 import '../env'
 import Koa from 'koa'
+
 import KoaRouter from 'koa-router'
 import koaBody from 'koa-bodyparser'
 import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
-const koaPlayground = require('graphql-playground-middleware-koa').default
+import koaPlayground from'graphql-playground-middleware-koa'
 import { addMiddleware } from 'graphql-add-middleware'
 import { execute, subscribe } from 'graphql'
 const db = require('./db/models')
